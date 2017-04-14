@@ -15,7 +15,11 @@ public final class PublicKey {
         self.buffer = buffer
     }
     
-    public func verify(signature: [UInt8], message: [UInt8]) -> Bool {
+    public func verify(signature: [UInt8], message: [UInt8]) throws -> Bool {
+        guard signature.count == 64 else {
+            throw Ed25519Error.invalidSignatureLength
+        }
+
         return signature.withUnsafeBufferPointer { signature in
             message.withUnsafeBufferPointer { msg in
                 buffer.withUnsafeBufferPointer { pub in

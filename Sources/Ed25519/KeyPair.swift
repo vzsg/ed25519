@@ -11,7 +11,9 @@ public final class KeyPair {
         privBuffer.withUnsafeMutableBufferPointer { priv in
             pubBuffer.withUnsafeMutableBufferPointer { pub in
                 seed.buffer.withUnsafeBufferPointer { seed in
-                    ed25519_create_keypair(pub.baseAddress, priv.baseAddress, seed.baseAddress)
+                    ed25519_create_keypair(pub.baseAddress,
+                                           priv.baseAddress,
+                                           seed.baseAddress)
                 }
             }
         }
@@ -45,7 +47,7 @@ public final class KeyPair {
         return signature
     }
     
-    public func verify(signature: [UInt8], message: [UInt8]) -> Bool {
-        return publicKey.verify(signature: signature, message: message)
+    public func verify(signature: [UInt8], message: [UInt8]) throws -> Bool {
+        return try publicKey.verify(signature: signature, message: message)
     }
 }
