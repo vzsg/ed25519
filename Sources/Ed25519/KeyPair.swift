@@ -22,6 +22,11 @@ public final class KeyPair {
         publicKey = PublicKey(unchecked: pubBuffer)
     }
     
+    public init(publicKey: PublicKey, privateKey: PrivateKey) {
+        self.publicKey = publicKey
+        self.privateKey = privateKey
+    }
+
     public init(publicKey: [UInt8], privateKey: [UInt8]) throws {
         self.publicKey = try PublicKey(publicKey)
         self.privateKey = try PrivateKey(privateKey)
