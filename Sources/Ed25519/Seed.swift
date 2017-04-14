@@ -14,4 +14,8 @@ public class Seed {
             throw Ed25519Error.seedGenerationFailed
         }
     }
+    
+    public var bytes: [UInt8] {
+        return buffer
+    }
 }
