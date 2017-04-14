@@ -1,8 +1,8 @@
 import CEd25519
 
 public final class KeyPair {
-    public let privateKey: PrivateKey
     public let publicKey: PublicKey
+    public let privateKey: PrivateKey
 
     public init(seed: Seed) {
         var pubBuffer = [UInt8](repeating: 0, count: 32)
@@ -22,9 +22,9 @@ public final class KeyPair {
         publicKey = PublicKey(unchecked: pubBuffer)
     }
     
-    public init(privateKey: [UInt8], publicKey: [UInt8]) throws {
-        self.privateKey = try PrivateKey(privateKey)
+    public init(publicKey: [UInt8], privateKey: [UInt8]) throws {
         self.publicKey = try PublicKey(publicKey)
+        self.privateKey = try PrivateKey(privateKey)
     }
     
     public func sign(_ message: [UInt8]) -> [UInt8] {
@@ -51,13 +51,11 @@ public final class KeyPair {
         return try publicKey.verify(signature: signature, message: message)
     }
 
-    public static func keyExchange(publicKey: [UInt8], privateKey: [UInt8]) throws -> [UInt8] {
-        let pubKey = try PublicKey(publicKey)
-        let privKey = try PrivateKey(privateKey)
+    public func keyExchange() -> [UInt8] {
         var secret = [UInt8](repeating: 0, count: 32)
         
-        pubKey.buffer.withUnsafeBufferPointer { pub in
-            privKey.buffer.withUnsafeBufferPointer { priv in
+        publicKey.buffer.withUnsafeBufferPointer { pub in
+            privateKey.buffer.withUnsafeBufferPointer { priv in
                 secret.withUnsafeMutableBufferPointer { sec in
                     ed25519_key_exchange(sec.baseAddress,
                                          pub.baseAddress,
@@ -67,5 +65,10 @@ public final class KeyPair {
         }
         
         return secret
+    }
+
+    public static func keyExchange(publicKey: [UInt8], privateKey: [UInt8]) throws -> [UInt8] {
+        let keyPair = try KeyPair(publicKey: publicKey, privateKey: privateKey)
+        return keyPair.keyExchange()
     }
 }

@@ -3,12 +3,12 @@ import CEd25519
 public final class PublicKey {
     let buffer: [UInt8]
     
-    public init(_ buffer: [UInt8]) throws {
-        guard buffer.count == 32 else {
+    public init(_ bytes: [UInt8]) throws {
+        guard bytes.count == 32 else {
             throw Ed25519Error.invalidPublicKeyLength
         }
         
-        self.buffer = buffer
+        self.buffer = bytes
     }
     
     init(unchecked buffer: [UInt8]) {

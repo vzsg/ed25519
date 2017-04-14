@@ -15,12 +15,12 @@ public class Seed {
         }
     }
     
-    public init(seed: [UInt8]) throws {
-        guard seed.count == 32 else {
+    public init(bytes: [UInt8]) throws {
+        guard bytes.count == 32 else {
             throw Ed25519Error.invalidSeedLength
         }
         
-        buffer = seed
+        buffer = bytes
     }
 
     public var bytes: [UInt8] {
