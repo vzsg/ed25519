@@ -50,4 +50,22 @@ public final class KeyPair {
     public func verify(signature: [UInt8], message: [UInt8]) throws -> Bool {
         return try publicKey.verify(signature: signature, message: message)
     }
+
+    public static func keyExchange(publicKey: [UInt8], privateKey: [UInt8]) throws -> [UInt8] {
+        let pubKey = try PublicKey(publicKey)
+        let privKey = try PrivateKey(privateKey)
+        var secret = [UInt8](repeating: 0, count: 32)
+        
+        pubKey.buffer.withUnsafeBufferPointer { pub in
+            privKey.buffer.withUnsafeBufferPointer { priv in
+                secret.withUnsafeMutableBufferPointer { sec in
+                    ed25519_key_exchange(sec.baseAddress,
+                                         pub.baseAddress,
+                                         priv.baseAddress)
+                }
+            }
+        }
+        
+        return secret
+    }
 }
