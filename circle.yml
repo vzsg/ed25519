@@ -1,0 +1,10 @@
+dependencies:
+  override:
+    - eval "$(curl -sL https://apt.vapor.sh)"
+    - sudo apt-get install swift
+    - sudo chmod -R a+rx /usr/
+test:
+  override:
+    - swift test
+    - swift build -c release
+
