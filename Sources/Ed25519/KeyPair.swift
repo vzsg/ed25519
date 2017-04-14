@@ -73,6 +73,11 @@ public final class KeyPair {
         return secret
     }
 
+    public static func keyExchange(publicKey: PublicKey, privateKey: PrivateKey) -> [UInt8] {
+        let keyPair = KeyPair(publicKey: publicKey, privateKey: privateKey)
+        return keyPair.keyExchange()
+    }
+
     public static func keyExchange(publicKey: [UInt8], privateKey: [UInt8]) throws -> [UInt8] {
         let keyPair = try KeyPair(publicKey: publicKey, privateKey: privateKey)
         return keyPair.keyExchange()
