@@ -1,12 +1,10 @@
 import CEd25519
 
 public final class PublicKey {
-    public static let length = 32
-
     let buffer: [UInt8]
     
     public init(_ buffer: [UInt8]) throws {
-        guard buffer.count == PublicKey.length else {
+        guard buffer.count == 32 else {
             throw Ed25519Error.invalidPublicKeyLength
         }
         
@@ -17,6 +15,10 @@ public final class PublicKey {
         self.buffer = buffer
     }
     
+    public var bytes: [UInt8] {
+        return buffer
+    }
+
     public func verify(signature: [UInt8], message: [UInt8]) throws -> Bool {
         guard signature.count == 64 else {
             throw Ed25519Error.invalidSignatureLength

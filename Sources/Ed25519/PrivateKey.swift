@@ -14,4 +14,8 @@ public final class PrivateKey {
     init(unchecked buffer: [UInt8]) {
         self.buffer = buffer
     }
+    
+    public var bytes: [UInt8] {
+        return buffer
+    }
 }
