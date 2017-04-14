@@ -1,7 +1,7 @@
 import CEd25519
 
 public final class PrivateKey {
-    let buffer: [UInt8]
+    private let buffer: [UInt8]
     
     public init(_ bytes: [UInt8]) throws {
         guard bytes.count == 64 else {

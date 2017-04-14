@@ -1,14 +1,14 @@
 import CEd25519
 
 public final class PublicKey {
-    let buffer: [UInt8]
+    private let buffer: [UInt8]
     
-    public init(_ bytes: [UInt8]) throws {
+    public convenience init(_ bytes: [UInt8]) throws {
         guard bytes.count == 32 else {
             throw Ed25519Error.invalidPublicKeyLength
         }
         
-        self.buffer = bytes
+        self.init(unchecked: bytes)
     }
     
     init(unchecked buffer: [UInt8]) {

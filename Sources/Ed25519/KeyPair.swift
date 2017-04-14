@@ -4,13 +4,18 @@ public final class KeyPair {
     public let publicKey: PublicKey
     public let privateKey: PrivateKey
 
-    public init(seed: Seed) {
+    public init(publicKey: PublicKey, privateKey: PrivateKey) {
+        self.publicKey = publicKey
+        self.privateKey = privateKey
+    }
+
+    public convenience init(seed: Seed) {
         var pubBuffer = [UInt8](repeating: 0, count: 32)
         var privBuffer = [UInt8](repeating: 0, count: 64)
 
         privBuffer.withUnsafeMutableBufferPointer { priv in
             pubBuffer.withUnsafeMutableBufferPointer { pub in
-                seed.buffer.withUnsafeBufferPointer { seed in
+                seed.bytes.withUnsafeBufferPointer { seed in
                     ed25519_create_keypair(pub.baseAddress,
                                            priv.baseAddress,
                                            seed.baseAddress)
@@ -18,26 +23,22 @@ public final class KeyPair {
             }
         }
 
-        privateKey = PrivateKey(unchecked: privBuffer)
-        publicKey = PublicKey(unchecked: pubBuffer)
-    }
-    
-    public init(publicKey: PublicKey, privateKey: PrivateKey) {
-        self.publicKey = publicKey
-        self.privateKey = privateKey
+        self.init(publicKey: PublicKey(unchecked: pubBuffer),
+                  privateKey: PrivateKey(unchecked: privBuffer))
     }
 
-    public init(publicKey: [UInt8], privateKey: [UInt8]) throws {
-        self.publicKey = try PublicKey(publicKey)
-        self.privateKey = try PrivateKey(privateKey)
+    public convenience init(publicKey: [UInt8], privateKey: [UInt8]) throws {
+        let pub = try PublicKey(publicKey)
+        let priv = try PrivateKey(privateKey)
+        self.init(publicKey: pub, privateKey: priv)
     }
     
     public func sign(_ message: [UInt8]) -> [UInt8] {
         var signature = [UInt8](repeating: 0, count: 64)
         
         signature.withUnsafeMutableBufferPointer { signature in
-            privateKey.buffer.withUnsafeBufferPointer { priv in
-                publicKey.buffer.withUnsafeBufferPointer { pub in
+            privateKey.bytes.withUnsafeBufferPointer { priv in
+                publicKey.bytes.withUnsafeBufferPointer { pub in
                     message.withUnsafeBufferPointer { msg in
                         ed25519_sign(signature.baseAddress,
                                      msg.baseAddress,
@@ -59,8 +60,8 @@ public final class KeyPair {
     public func keyExchange() -> [UInt8] {
         var secret = [UInt8](repeating: 0, count: 32)
         
-        publicKey.buffer.withUnsafeBufferPointer { pub in
-            privateKey.buffer.withUnsafeBufferPointer { priv in
+        publicKey.bytes.withUnsafeBufferPointer { pub in
+            privateKey.bytes.withUnsafeBufferPointer { priv in
                 secret.withUnsafeMutableBufferPointer { sec in
                     ed25519_key_exchange(sec.baseAddress,
                                          pub.baseAddress,
