@@ -76,4 +76,26 @@ public final class KeyPair {
         let keyPair = try KeyPair(publicKey: publicKey, privateKey: privateKey)
         return keyPair.keyExchange()
     }
+    
+    public func add(scalar: [UInt8]) throws -> KeyPair {
+        guard scalar.count == 32 else {
+            throw Ed25519Error.invalidScalarLength
+        }
+
+        var pub = publicKey.bytes
+        var priv = privateKey.bytes
+        
+        pub.withUnsafeMutableBufferPointer { pub in
+            priv.withUnsafeMutableBufferPointer { priv in
+                scalar.withUnsafeBufferPointer { scalar in
+                    ed25519_add_scalar(pub.baseAddress,
+                                       priv.baseAddress,
+                                       scalar.baseAddress)
+                }
+            }
+        }
+        
+        return KeyPair(publicKey: PublicKey(unchecked: pub),
+                       privateKey: PrivateKey(unchecked: priv))
+    }
 }
