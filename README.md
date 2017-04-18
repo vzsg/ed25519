@@ -5,7 +5,7 @@ Ed25519 for Swift 3.x
 
 
 This project is a Swift adaptation of the portable C [Ed25519](http://ed25519.cr.yp.to/)
-implementation available at [here](https://github.com/orlp/ed25519).  
+implementation available [here](https://github.com/orlp/ed25519).  
 The complete functionality,
 including the key exchange and scalar addition functions are available.
 
