@@ -20,6 +20,13 @@ To integrate the library in your SwiftPM project, add the following dependency t
 .Package(url: "https://github.com/vzsg/ed25519.git", majorVersion: 0, minor: 1)
 ```
 
+You might need to try something like this, if you're running Xcode9/Swift4:
+
+```swift
+ .package(url: "https://github.com/kristofer/ed25519.git", .branch("master"))
+```
+(notice lowercase "package" and the ".branch" (which works on other git branches as well)
+
 API
 ---
 
