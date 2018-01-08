@@ -18,5 +18,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Sources/Ed25519/**/*.{h,swift}'
   s.public_header_files = 'Sources/Ed25519/**/*.h'
 
-  s.dependency 'CEd25519', '~> 0.2.0'
+  s.dependency 'libCEd25519', '~> 0.2.0'
 end
