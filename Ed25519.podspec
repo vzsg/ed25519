@@ -16,5 +16,6 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '3.0'
 
   s.source_files = 'Sources/Ed25519/**/*.swift'
+
   s.dependency 'libCEd25519', '~> 0.2.0'
 end
