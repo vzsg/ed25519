@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.name             = 'CEd25519'
+  s.name             = 'libCEd25519'
   s.version          = '0.2.0'
-  s.summary          = 'CEd25519 for Swift 4'
+  s.summary          = 'Main dependency for Ed25519'
   s.homepage         = 'https://github.com/vzsg/ed25519'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = 'Zsolt Váradi'
