@@ -1,5 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'libCEd25519'
+  s.module_name      = 'CEd25519'
   s.version          = '0.2.0'
   s.summary          = 'Main dependency for Ed25519'
   s.homepage         = 'https://github.com/vzsg/ed25519'
