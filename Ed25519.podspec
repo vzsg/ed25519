@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Ed25519'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'Ed25519 for Swift 4'
   s.homepage         = 'https://github.com/AndrewBarba/ed25519'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -17,5 +17,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Sources/Ed25519/**/*.swift'
 
-  s.dependency 'libCEd25519', '~> 1.0.0'
+  s.dependency 'libCEd25519', '~> 1.1.0'
 end

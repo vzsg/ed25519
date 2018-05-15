@@ -14,3 +14,10 @@ void ed25519_create_keypair(unsigned char *public_key, unsigned char *private_ke
     ge_scalarmult_base(&A, private_key);
     ge_p3_tobytes(public_key, &A);
 }
+
+void ed25519_extract_public_key(unsigned char *public_key, unsigned char *private_key) {
+    ge_p3 point;
+
+    ge_scalarmult_base(&point, private_key);
+    ge_p3_tobytes(public_key, &point);
+}

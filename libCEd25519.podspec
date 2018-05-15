@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'libCEd25519'
   s.module_name      = 'CEd25519'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'Main dependency for Ed25519'
   s.homepage         = 'https://github.com/AndrewBarba/ed25519'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
