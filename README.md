@@ -1,11 +1,10 @@
-Ed25519 for Swift 3.x
-=====================
+# Ed25519 for Swift 4
 
-![Swift](http://img.shields.io/badge/swift-3.0-brightgreen.svg) [![CircleCI](https://circleci.com/gh/vzsg/ed25519.svg?style=shield)](https://circleci.com/gh/vzsg/ed25519)
+[![CircleCI](https://circleci.com/gh/vzsg/ed25519.svg?style=shield)](https://circleci.com/gh/vzsg/ed25519)
 
 
 This project is a Swift adaptation of the portable C [Ed25519](http://ed25519.cr.yp.to/)
-implementation available [here](https://github.com/orlp/ed25519).  
+implementation available [here](https://github.com/orlp/ed25519).
 The complete functionality,
 including the key exchange and scalar addition functions are available.
 
@@ -17,7 +16,9 @@ Installation
 To integrate the library in your SwiftPM project, add the following dependency to Package.swift:
 
 ```swift
-.Package(url: "https://github.com/vzsg/ed25519.git", majorVersion: 0, minor: 1)
+// swift-tools-version:4.1
+
+.package(url: "https://github.com/AndrewBarba/ed25519.git", from: "1.0.0")
 ```
 
 API
@@ -27,7 +28,7 @@ API
 let seed = try Seed()
 ```
 
-Creates a 32 byte random seed for key generation.  
+Creates a 32 byte random seed for key generation.
 May throw `Ed25519Error.seedGenerationFailed` in case there was a problem with reading from `/dev/urandom`.
 
 ```swift
@@ -35,7 +36,7 @@ let seedBytes: [UInt8] = [ ... ]
 let seed2 = try Seed(bytes: bytes)
 ```
 
-Creates a seed for key generation with a previously known value.  
+Creates a seed for key generation with a previously known value.
 `bytes` must be an array of 32 bytes, otherwise `Ed25519Error.invalidSeedLength` will be thrown.
 
 ```swift
@@ -50,7 +51,7 @@ let privBytes: [UInt8] = [ ... ]
 let keyPair2 = try KeyPair(publicKey: pubBytes, privateKey: privBytes)
 ```
 
-Creates a key pair from the previously known public and private keys.  
+Creates a key pair from the previously known public and private keys.
 Throws `Ed25519Error.invalidPublicKeyLength` if the public key is not 32,
 or `Ed25519Error.invalidPrivateKeyLength` if the private key is not 64 bytes long.
 
@@ -60,7 +61,7 @@ let privateKey = try PrivateKey(privBytes)
 let keyPair3 = KeyPair(publicKey: publicKey, privateKey: privateKey)
 ```
 
-Construct public and private keys directly.  
+Construct public and private keys directly.
 The same length limitations and exceptions apply.
 
 ```swift
@@ -78,7 +79,7 @@ let message: [UInt8] = [ ... ]
 let signature: [UInt8] = keyPair.sign(message: message)
 ```
 
-Creates a signature of the given message with the given key pair.  
+Creates a signature of the given message with the given key pair.
 `signature` will be an array of 64 bytes.
 
 ```swift
@@ -86,7 +87,7 @@ let valid: Bool = try keyPair.verify(signature: signature, message: message)
 let valid2: Bool = try publicKey.verify(signature: signature, message: message)
 ```
 
-Verifies the signature on the given message using a key pair or a public key.  
+Verifies the signature on the given message using a key pair or a public key.
 Both methods throw `Ed25519Error.invalidSignatureLength` if `signature` is not an array of 64 bytes.
 
 ```swift
@@ -121,6 +122,6 @@ License
 
 The Swift library is released under the MIT license. See LICENSE for details.
 
-The C implementation is (c) 2015 Orson Peters, licensed under the permissive zlib license.  
-The original source code is not modified, only reorganized for SwiftPM consumption.  
+The C implementation is (c) 2015 Orson Peters, licensed under the permissive zlib license.
+The original source code is not modified, only reorganized for SwiftPM consumption.
 See license.txt in CEd25519 for details.
